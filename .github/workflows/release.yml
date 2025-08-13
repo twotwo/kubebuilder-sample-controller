@@ -25,8 +25,16 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build
         run: |
+          make docker-build IMG=$image
+        env:
+          image: twotwo/pod-billing-controller:${{ github.run_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Release
+        if: github.ref == 'refs/heads/dev'
+        run: |
           make docker-build docker-push IMG=$image
           make build-installer IMG=$image
         env:
-          image: twotwo/pod-billing-controller:${{ github.run_number }}
+          image: twotwo/pod-billing-controller:latest
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
