@@ -1,0 +1,27 @@
+name: Operator Releaser
+
+on:
+  push:
+    branches:
+      - dev
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  operator-releaser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # all history for all branches and tags
+
+      - name: Build
+        run: |
+          make docker-build docker-push IMG=$image
+          make build-installer IMG=$image
+        env:
+          image: twotwo/pod-billing-controller:${{ github.run_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

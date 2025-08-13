@@ -1,0 +1,9 @@
+apiVersion: samplecontroller.github.com/v1alpha1
+kind: ExpelOrcs
+metadata:
+  labels:
+    app.kubernetes.io/name: kubebuilder-sample-controller
+    app.kubernetes.io/managed-by: kustomize
+  name: expelorcs-sample
+spec:
+  # TODO(user): Add fields here
